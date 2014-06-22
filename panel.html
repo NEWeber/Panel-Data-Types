@@ -1,0 +1,97 @@
+<script>
+function Knowledge () {
+  this.specInterp = function(number){
+    var specialtyIndex = ["General Interest", "Foreign Interest", "Domestic Interest"]
+    return specialtyIndex[number];
+  }
+}
+
+function QuestionDeck() {
+  this.questions = [];
+}
+
+qD = new QuestionDeck;
+
+function QuestionCard (specialty, difficulty) {
+  this.specialty = specialty;
+  this.difficulty = difficulty;
+}
+
+
+function Person(name, job, specialty) {
+  this.name = name;
+  this.job = job;
+  this.specialty = specialty;
+  }
+
+
+function Reporter(name, specialty) {
+  this.name = name;
+  this.job = "Reporter";
+  this.specialty = specialty;
+  /* Reporters like to ask questions about their specialty. 
+  If a question is in their specialty, they ask it.
+  Otherwise, there's a 50-50 chance they'll discard it and go to the next question in the stack */
+  this.wantsToAsk = function(questionType) {
+    if (questionType == this.specialty) {
+      return true
+    }
+    else {
+      var coinFlip;
+      coinFlip = Math.floor(Math.random() * 2) 
+      return coinFlip //This will be a boolean 0 or 1 so we don't have to write another if-else
+    }
+  }
+  /*Before the panel begins, reporters write questions and put it on the stack.
+  FUTURE FEATURE: They're more likely to write questions about their specialty */
+  this.writeAQuestion = function() {
+    var randQType;
+    randQType = Math.floor(Math.random() * 3);
+    var questionDiff;
+    questionDiff = Math.floor(Math.random() * 3);
+    //Treat the question card as a stack, find the next available slot and put the new question card there. Push would be a better option
+    var i;
+    i = 0;
+    while((typeof qD.questions[i]) != "undefined") {
+      i++
+    }
+    qD.questions[i] = new QuestionCard(randQType, questionDiff);
+  } 
+}
+
+function Minister(name, specialty) {
+  this.name = name;
+  this.job = "Minister";
+  this.specialty = specialty;
+  this.intComp = function() {
+    switch(this.specialty) {
+      case 0:
+      this.gen = 7;
+      this.foreign = 5;
+      this.domestic = 5;
+      break;
+
+      case 1: 
+      this.gen = 4;
+      this.foreign = 10;
+      this.domestic = 3;
+      break;
+
+      case 2: 
+      this.gen = 4;
+      this.foreign = 3;
+      this.domestic = 10;
+      break;
+    }
+  }
+}
+QuestionCard.prototype = new Knowledge();
+Person.prototype = new Knowledge();
+Reporter.prototype = new Person();
+
+var bob = new Reporter("Robert", 0);
+bob.writeAQuestion();
+bob.writeAQuestion();
+bob.writeAQuestion();
+
+</script>
