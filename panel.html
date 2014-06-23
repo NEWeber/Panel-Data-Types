@@ -1,4 +1,8 @@
 <script>
+var questionOnTable;
+var questioningReporter;
+var afterThis;
+
 function Knowledge () {
   this.specInterp = function(number){
     var specialtyIndex = ["General Interest", "Foreign Interest", "Domestic Interest"]
@@ -8,6 +12,15 @@ function Knowledge () {
 
 function QuestionDeck() {
   this.questions = [];
+    this.count = function() {
+      return this.questions.length;
+    }
+  this.draw = function() {
+    /*var newQCard = this.questions[(this.count - 1)];
+    this.questions[(this.count - 1)] = null;
+    return newQCard;*/
+    return this.questions.pop();
+  }
 }
 
 qD = new QuestionDeck;
@@ -57,6 +70,18 @@ function Reporter(name, specialty) {
     }
     qD.questions[i] = new QuestionCard(randQType, questionDiff);
   } 
+  this.askAQuestion = function() {
+    console.log(this.name + " draws a question off the deck.")
+    var currentQ = qD.draw();
+    if (this.wantsToAsk(currentQ.specialty)) {
+      console.log(this.name + " likes this " + this.specInterp(currentQ.specialty) + " question. They're about to ask it.")
+      questionOnTable = currentQ;
+    }
+    else {
+      console.log(this.name + " tosses the " + this.specInterp(currentQ.specialty)+ " question card away in disgust. They're drawing a new question.")
+      this.askAQuestion();
+    }
+  }
 }
 
 function Minister(name, specialty) {
@@ -102,8 +127,21 @@ for (i = 0; i < 3; i++) {
   beth.writeAQuestion();
   bill.writeAQuestion();
 }
-var reporterQueue;
-reporterQueue = [bob, beth, bill];  
+function ReporterQueue() {
+  this.repQueue = [bob, beth, bill];
+  //this.startQueue = function() {} build a queue from scratch
+  this.nextRep = function () {
+    questioningReporter = this.repQueue.splice(0, 1)[0];
+  }
+  this.repDone = function () {
+    this.repQueue[this.repQueue.length] =  questioningReporter;
+  }
+  this.repAfterThisOne = function () {
+    return this.repQueue[0];
+  }
+} 
+
+var thisLine = new ReporterQueue();
 
 var saul;
 var sam;
@@ -122,5 +160,7 @@ sam.next = sil;
 sil.intComp();
 sil.previous = sam;
 sil.next = null;
+
+
 
 </script>
