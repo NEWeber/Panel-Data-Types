@@ -78,7 +78,7 @@ function Reporter(name, specialty) {
       questionOnTable = currentQ;
     }
     else {
-      console.log(this.name + " tosses the " + this.specInterp(currentQ.specialty)+ " question card away in disgust. They're drawing a new question.")
+      console.log(this.name + " tosses the " + this.specInterp(currentQ.specialty)+ " question card away in disgust.")
       this.askAQuestion();
     }
   }
@@ -111,6 +111,44 @@ function Minister(name, specialty) {
       break;
     }
   }
+  //Ministers answer questions sucessuflly if they roll a number on a d10 less than or equal to their stat in that area.
+  //DRY this up with object braket notation with variables for the different specialty types.
+  this.askedAQuestion = function() {
+
+    if (questionOnTable.specialty == 0) {
+      if (this.gen <= ((Math.floor(Math.random() * 10)) + 1)) {
+        console.log(this.name + " deftly handles the " + this.specInterp(questionOnTable.specialty) + " question.");
+          //insert score keeping here
+      }
+      else {
+        console.log(this.name + " handles the " + this.specInterp(questionOnTable.specialty) + " question terribly!");
+          //insert score keeping here
+      }
+    }
+
+    else if (questionOnTable.specialty == 1) {
+      if (this.foreign <= ((Math.floor(Math.random() * 10)) + 1)) {
+        console.log(this.name + " deftly handles the " + this.specInterp(questionOnTable.specialty) + " question.");
+          //insert score keeping here
+      }
+      else {
+        console.log(this.name + " handles the " + this.specInterp(questionOnTable.specialty) + " question terribly!");
+          //insert score keeping here
+      }      
+    }
+
+    else {
+      if (this.domestic <= ((Math.floor(Math.random() * 10)) + 1)) {
+        console.log(this.name + " deftly handles the " + this.specInterp(questionOnTable.specialty) + " question.");
+          //insert score keeping here
+      }
+      else {
+        console.log(this.name + " handles the " + this.specInterp(questionOnTable.specialty) + " question terribly!");
+          //insert score keeping here
+      }      
+    }
+
+  }
 }
 QuestionCard.prototype = new Knowledge();
 Person.prototype = new Knowledge();
@@ -121,14 +159,17 @@ var bob = new Reporter("Robert", 0);
 var beth = new Reporter("Elizabeth", 1);
 var bill = new Reporter("William", 2);
 
-//each reporter writes three questions
-for (i = 0; i < 3; i++) {
+//each reporter writes [numberOfQuestions] questions
+var numberOfQuestions;
+numberOfQuestions = 3;
+for (i = 0; i < numberOfQuestions; i++) {
   bob.writeAQuestion();
   beth.writeAQuestion();
   bill.writeAQuestion();
 }
+
 function ReporterQueue() {
-  this.repQueue = [bob, beth, bill];
+  this.repQueue = [bob, beth, bill]; //[]
   //this.startQueue = function() {} build a queue from scratch
   this.nextRep = function () {
     questioningReporter = this.repQueue.splice(0, 1)[0];
@@ -140,8 +181,7 @@ function ReporterQueue() {
     return this.repQueue[0];
   }
 } 
-
-var thisLine = new ReporterQueue();
+var ourLine = new ReporterQueue();
 
 var saul;
 var sam;
@@ -160,6 +200,9 @@ sam.next = sil;
 sil.intComp();
 sil.previous = sam;
 sil.next = null;
+
+var currentMinister = sam;
+
 
 
 
