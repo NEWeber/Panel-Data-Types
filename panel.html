@@ -49,7 +49,7 @@ function Reporter(name, specialty) {
     randQType = Math.floor(Math.random() * 3);
     var questionDiff;
     questionDiff = Math.floor(Math.random() * 3);
-    //Treat the question card as a stack, find the next available slot and put the new question card there. Push would be a better option
+    //Treat the question deck as a stack, find the next available slot and put the new question card there. Push would be a better option
     var i;
     i = 0;
     while((typeof qD.questions[i]) != "undefined") {
@@ -63,6 +63,8 @@ function Minister(name, specialty) {
   this.name = name;
   this.job = "Minister";
   this.specialty = specialty;
+  this.previous = 0;
+  this.next = 0;
   this.intComp = function() {
     switch(this.specialty) {
       case 0:
@@ -88,10 +90,37 @@ function Minister(name, specialty) {
 QuestionCard.prototype = new Knowledge();
 Person.prototype = new Knowledge();
 Reporter.prototype = new Person();
+Minister.prototype = new Person();
 
 var bob = new Reporter("Robert", 0);
-bob.writeAQuestion();
-bob.writeAQuestion();
-bob.writeAQuestion();
+var beth = new Reporter("Elizabeth", 1);
+var bill = new Reporter("William", 2);
+
+//each reporter writes three questions
+for (i = 0; i < 3; i++) {
+  bob.writeAQuestion();
+  beth.writeAQuestion();
+  bill.writeAQuestion();
+}
+var reporterQueue;
+reporterQueue = [bob, beth, bill];  
+
+var saul;
+var sam;
+var sil;
+saul = new Minister("Saul", 1);
+sam = new Minister("Samantha", 0);
+sil = new Minister("Silas", 2);
+saul.intComp();
+saul.pervious = null;
+saul.next = sam;
+
+sam.intComp();
+sam.previous = saul;
+sam.next = sil;
+
+sil.intComp();
+sil.previous = sam;
+sil.next = null;
 
 </script>
