@@ -30,7 +30,6 @@
     this.difficulty = difficulty;
   }
 
-
   function Person(name, job, specialty) {
     this.name = name;
     this.job = job;
@@ -70,11 +69,11 @@
       }
       qD.questions[i] = new QuestionCard(randQType, questionDiff);
     } 
-    
+
     this.askAQuestion = function() {
       console.log(this.name + " draws a question off the deck.")
       if (qD.questions.length == 0) {
-        console.log("There are no more questions on the deck! " + this.name + " is going off the rails and is asking a difficult question about their speciality!");
+        console.log("There are no more questions on the deck! " + this.name + " is going off the rails and is asking a difficult question about their specialty!");
         questionOnTable = new QuestionCard(this.specialty, 2);
         
       }
@@ -119,8 +118,8 @@
         break;
       }
     }
-    //Ministers answer questions sucessuflly if they roll a number on a d10 less than or equal to their stat in that area.
-    //DRY this up with object braket notation with variables for the different specialty types.
+    //Ministers answer questions successfully if they roll a number on a d10 less than or equal to their stat in that area.
+    //DRY this up with object bracket notation with variables for the different specialty types.
     this.askedAQuestion = function() {
 
       if (questionOnTable.specialty == 0) {
@@ -291,7 +290,7 @@
       currentMinister.askedAQuestion();
       ourLine.repDone();
     }
-    console.log("Well, that's all the questions. Thank you for coming to our panel. We look forward to reading your positive reports in the paper.");
+    console.log("Samantha stands up and says, \"Well, that's all the questions. Thank you for coming to our panel. We look forward to reading your positive reports in the paper.\"");
   }
   theQuestionsGame();
   //thanks to http://www.nczonline.net/blog/2009/04/21/computer-science-in-javascript-doubly-linked-lists/ for ideas on how to implement the doubly-linked list for the ministers.
