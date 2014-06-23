@@ -55,7 +55,7 @@ function Reporter(name, specialty) {
       return coinFlip //This will be a boolean 0 or 1 so we don't have to write another if-else
     }
   }
-  /*Before the panel begins, reporters write questions and put it on the stack.
+  /*Before the panel begins, reporters write random questions with random difficulty and put it on the stack.
   FUTURE FEATURE: They're more likely to write questions about their specialty */
   this.writeAQuestion = function() {
     var randQType;
@@ -72,6 +72,12 @@ function Reporter(name, specialty) {
   } 
   this.askAQuestion = function() {
     console.log(this.name + " draws a question off the deck.")
+    if (qD.questions.length == 0) {
+      console.log("There are no more questions on the deck! " + this.name + " is going off the rails and is asking a difficult question about their speciality!");
+      questionOnTable = new QuestionCard(this.specialty, 2);
+      
+    }
+    else {
     var currentQ = qD.draw();
     if (this.wantsToAsk(currentQ.specialty)) {
       console.log(this.name + " likes this " + this.specInterp(currentQ.specialty) + " question. They're about to ask it.")
@@ -80,6 +86,7 @@ function Reporter(name, specialty) {
     else {
       console.log(this.name + " tosses the " + this.specInterp(currentQ.specialty)+ " question card away in disgust.")
       this.askAQuestion();
+    }
     }
   }
 }
@@ -116,7 +123,7 @@ function Minister(name, specialty) {
   this.askedAQuestion = function() {
 
     if (questionOnTable.specialty == 0) {
-      if (this.gen <= ((Math.floor(Math.random() * 10)) + 1)) {
+      if (this.gen >= ((Math.floor(Math.random() * 10)) + 1)) {
         console.log(this.name + " deftly handles the " + this.specInterp(questionOnTable.specialty) + " question.");
           //insert score keeping here
       }
@@ -127,7 +134,7 @@ function Minister(name, specialty) {
     }
 
     else if (questionOnTable.specialty == 1) {
-      if (this.foreign <= ((Math.floor(Math.random() * 10)) + 1)) {
+      if (this.foreign >= ((Math.floor(Math.random() * 10)) + 1)) {
         console.log(this.name + " deftly handles the " + this.specInterp(questionOnTable.specialty) + " question.");
           //insert score keeping here
       }
@@ -138,7 +145,7 @@ function Minister(name, specialty) {
     }
 
     else {
-      if (this.domestic <= ((Math.floor(Math.random() * 10)) + 1)) {
+      if (this.domestic >= ((Math.floor(Math.random() * 10)) + 1)) {
         console.log(this.name + " deftly handles the " + this.specInterp(questionOnTable.specialty) + " question.");
           //insert score keeping here
       }
@@ -161,7 +168,7 @@ var bill = new Reporter("William", 2);
 
 //each reporter writes [numberOfQuestions] questions
 var numberOfQuestions;
-numberOfQuestions = 3;
+numberOfQuestions = 1;
 for (i = 0; i < numberOfQuestions; i++) {
   bob.writeAQuestion();
   beth.writeAQuestion();
@@ -170,27 +177,28 @@ for (i = 0; i < numberOfQuestions; i++) {
 
 function ReporterQueue() {
   this.repQueue = [bob, beth, bill]; //[]
-  //this.startQueue = function() {} build a queue from scratch
+  //this.startQueue = function() {} build a reporter queue from scratch
   this.nextRep = function () {
     questioningReporter = this.repQueue.splice(0, 1)[0];
+    console.log(questioningReporter.name + " steps up to the microphone.")
+  }
+  this.repAfterThisOne = function () {
+    //meant to be called after nextRep()
+    return this.repQueue[0];
   }
   this.repDone = function () {
     this.repQueue[this.repQueue.length] =  questioningReporter;
-  }
-  this.repAfterThisOne = function () {
-    return this.repQueue[0];
+    console.log(questioningReporter.name + " goes to the back of the line of reporters.")
   }
 } 
 var ourLine = new ReporterQueue();
 
-var saul;
-var sam;
-var sil;
-saul = new Minister("Saul", 1);
-sam = new Minister("Samantha", 0);
-sil = new Minister("Silas", 2);
+var saul = new Minister("Saul", 1);
+var sam = new Minister("Samantha", 0);
+var sil = new Minister("Silas", 2);
+
 saul.intComp();
-saul.pervious = null;
+saul.previous = null;
 saul.next = sam;
 
 sam.intComp();
@@ -203,7 +211,87 @@ sil.next = null;
 
 var currentMinister = sam;
 
+var theQuestionsGame = function () {
+  while(qD.questions.length != 0) {
+  //Basic game flow
+  ourLine.nextRep();
+  afterThis = ourLine.repAfterThisOne();
+  questioningReporter.askAQuestion();
 
+  console.log("Minister " + currentMinister.name + " who has " + currentMinister.specInterp(currentMinister.specialty) + " knowledge has the panel microphone. Do you want to switch ministers?")
+  console.log("Keep in mind, the reporter after this one is " + afterThis.name + " whose specialty is " + currentMinister.specInterp(afterThis.specialty) + ".");
 
+  if (currentMinister.next != null && currentMinister.previous != null) {
+    console.log("You can switch to " + currentMinister.previous.name + " who has " + currentMinister.specInterp(currentMinister.previous.specialty) + " knowledge. You could also switch to " + currentMinister.next.name + " who has " + currentMinister.specInterp(currentMinister.next.specialty) + " knowledge.");
+    var chooseMinister = prompt("Type " + currentMinister.name + " to keep the current Minister or type " + currentMinister.previous.name + " or " + currentMinister.next.name + " to switch to them.").toUpperCase();
+    
+    switch(chooseMinister) {
+      case currentMinister.previous.name.toUpperCase():
+      currentMinister = currentMinister.previous;
+      console.log(currentMinister.name + " gets the microphone and prepares to answer the question.");
+      break;
 
+      case currentMinister.name.toUpperCase():
+      currentMinister = currentMinister;
+      console.log(currentMinister.name + " keeps the microphone and prepares to answer the question.");
+      break;
+
+      case currentMinister.next.name.toUpperCase():
+      currentMinister = currentMinister.next;
+      console.log(currentMinister.name + " gets the microphone and prepares to answer the question.");
+      break;
+
+      default: 
+      console.log("Your ministers didn't understand your instructions. In the confusion, the current minister grasps the microphone tighter; " + currentMinister.name + " still has the microphone!");
+    }
+  }
+
+  else if (currentMinister.next != null && currentMinister.previous == null) {
+    console.log("You can switch to " + currentMinister.next.name + " who has " + currentMinister.specInterp(currentMinister.next.specialty) + " knowledge.");
+    var chooseMinister = prompt("Type " + currentMinister.name + " to keep the current Minister or type " + currentMinister.next.name + " to switch to them.").toUpperCase();    
+
+    switch(chooseMinister) {
+
+      case currentMinister.name.toUpperCase():
+      currentMinister = currentMinister;
+      console.log(currentMinister.name + " keeps the microphone and prepares to answer the question.");
+      break;
+
+      case currentMinister.next.name.toUpperCase():
+      currentMinister = currentMinister.next;
+      console.log(currentMinister.name + " gets the microphone and prepares to answer the question.");
+      break;
+
+      default: 
+      console.log("Your ministers didn't understand your instructions. In the confusion, the current minister grasps the microphone tighter; " + currentMinister.name + " still has the microphone!");    
+    }
+  }
+  else {
+    console.log("You can switch to " + currentMinister.previous.name + " who has " + currentMinister.specInterp(currentMinister.previous.specialty) + " knowledge.");
+    var chooseMinister = prompt("Type " + currentMinister.name + " to keep the current Minister or type " + currentMinister.previous.name + " to switch to them.").toUpperCase();    
+
+    switch(chooseMinister) {
+
+      case currentMinister.name.toUpperCase():
+      currentMinister = currentMinister;
+      console.log(currentMinister.name + " keeps the microphone and prepares to answer the question.");
+      break;
+
+      case currentMinister.previous.name.toUpperCase():
+      currentMinister = currentMinister.previous;
+      console.log(currentMinister.name + " gets the microphone and prepares to answer the question.");
+      break;
+
+      default: 
+      console.log("Your ministers didn't understand your instructions. In the confusion, the current minister grasps the microphone tighter; " + currentMinister.name + " still has the microphone!");    
+    }    
+  }
+
+  currentMinister.askedAQuestion();
+  ourLine.repDone();
+}
+console.log("Well, that's all the questions. Thank you for coming to our panel. We look forward to reading your positive reports in the paper.");
+}
+theQuestionsGame();
+//thanks to http://www.nczonline.net/blog/2009/04/21/computer-science-in-javascript-doubly-linked-lists/ for ideas on how to implement the doubly-linked list for the ministers.
 </script>
