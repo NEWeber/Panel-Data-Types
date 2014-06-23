@@ -21,6 +21,6 @@ Planned improvements:
 - Make game mechanics more transparent to the player so they can make better decisions.
 - Balance the game and check that the random number generator is producing the expected results.
 - Add better commenting to code, esp. the switching section.
-- DRY out code so that it is easier to read, edit and debug, especially the minister switching and minister .askedAQuestion function.
+- DRY out code so that it is easier to read, edit and debug, especially the minister switching and minister .askedAQuestion method.
 - Figure out a way to implement the minister switching as a method on an object or a function.
 - Put in actual questions pulled from a list of questions that are relevant to the specialty of the question.
