@@ -8,6 +8,38 @@ textarea {
     color: #222;
 }
 
+.minister {
+    height:100px;
+    width:100px;
+    display: inline-block;
+    background-color: #A9A9A9;
+    opacity: .5;
+}
+
+#lmin {
+
+}
+
+#mmin {
+
+}
+
+#rmin {
+
+}
+
+.reporter {
+    height:100px;
+    width:100px;
+    display: inline-block;
+    background-color: #336699;
+    opacity: .75;  
+}
+
+#currentreporter{
+    opacity: 1;
+}
+
 html {
     font-size: 1em;
     line-height: 1.4;

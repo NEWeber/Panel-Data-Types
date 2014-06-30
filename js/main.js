@@ -72,20 +72,20 @@ this.writeAQuestion = function() {
 } 
 
 this.askAQuestion = function() {
-  $("#gameAlerts").append(this.name + " draws a question off the deck.")
+  $("#gameAlerts").append("<br/>" + this.name + " draws a question off the deck.")
   if (qD.questions.length == 0) {
-    $("#gameAlerts").append("There are no more questions on the deck! " + this.name + " is going off the rails and is asking a difficult question about their specialty!");
+    $("#gameAlerts").append("<br/>" + "There are no more questions on the deck! " + this.name + " is going off the rails and is asking a difficult question about their specialty!");
     questionOnTable = new QuestionCard(this.specialty, 2);
     
   }
   else {
     var currentQ = qD.draw();
     if (this.wantsToAsk(currentQ.specialty)) {
-      $("#gameAlerts").append(this.name + " likes this " + this.specInterp(currentQ.specialty) + " question. They're about to ask it.")
+      $("#gameAlerts").append("<br/>" + this.name + " likes this " + this.specInterp(currentQ.specialty) + " question. They're about to ask it.")
       questionOnTable = currentQ;
     }
     else {
-      $("#gameAlerts").append(this.name + " tosses the " + this.specInterp(currentQ.specialty)+ " question card away in disgust.")
+      $("#gameAlerts").append("<br/>" + this.name + " tosses the " + this.specInterp(currentQ.specialty)+ " question card away in disgust.")
       this.askAQuestion();
     }
   }
@@ -125,33 +125,33 @@ this.askedAQuestion = function() {
 
   if (questionOnTable.specialty == 0) {
     if (this.gen >= ((Math.floor(Math.random() * 10)) + 1)) {
-      $("#gameAlerts").append(this.name + " deftly handles the " + this.specInterp(questionOnTable.specialty) + " question.");
+      $("#gameAlerts").append("<br/>" + this.name + " deftly handles the " + this.specInterp(questionOnTable.specialty) + " question.");
         //insert score keeping here
     }
     else {
-      $("#gameAlerts").append(this.name + " handles the " + this.specInterp(questionOnTable.specialty) + " question terribly!");
+      $("#gameAlerts").append("<br/>" + this.name + " handles the " + this.specInterp(questionOnTable.specialty) + " question terribly!");
         //insert score keeping here
     }
   }
 
   else if (questionOnTable.specialty == 1) {
     if (this.foreign >= ((Math.floor(Math.random() * 10)) + 1)) {
-      $("#gameAlerts").append(this.name + " deftly handles the " + this.specInterp(questionOnTable.specialty) + " question.");
+      $("#gameAlerts").append("<br/>" + this.name + " deftly handles the " + this.specInterp(questionOnTable.specialty) + " question.");
         //insert score keeping here
     }
     else {
-      $("#gameAlerts").append(this.name + " handles the " + this.specInterp(questionOnTable.specialty) + " question terribly!");
+      $("#gameAlerts").append("<br/>" + this.name + " handles the " + this.specInterp(questionOnTable.specialty) + " question terribly!");
         //insert score keeping here
     }      
   }
 
   else {
     if (this.domestic >= ((Math.floor(Math.random() * 10)) + 1)) {
-      $("#gameAlerts").append(this.name + " deftly handles the " + this.specInterp(questionOnTable.specialty) + " question.");
+      $("#gameAlerts").append("<br/>" + this.name + " deftly handles the " + this.specInterp(questionOnTable.specialty) + " question.");
         //insert score keeping here
     }
     else {
-      $("#gameAlerts").append(this.name + " handles the " + this.specInterp(questionOnTable.specialty) + " question terribly!");
+      $("#gameAlerts").append("<br/>" + this.name + " handles the " + this.specInterp(questionOnTable.specialty) + " question terribly!");
         //insert score keeping here
     }      
   }
@@ -181,7 +181,7 @@ this.repQueue = [bob, beth, bill]; //[]
 //this.startQueue = function() {} build a reporter queue from scratch
 this.nextRep = function () {
   questioningReporter = this.repQueue.splice(0, 1)[0];
-  $("#gameAlerts").append(questioningReporter.name + " steps up to the microphone.")
+  $("#gameAlerts").append("<br/>" + questioningReporter.name + " steps up to the microphone.")
 }
 this.repAfterThisOne = function () {
   //meant to be called after nextRep()
@@ -189,7 +189,7 @@ this.repAfterThisOne = function () {
 }
 this.repDone = function () {
   this.repQueue[this.repQueue.length] =  questioningReporter;
-  $("#gameAlerts").append(questioningReporter.name + " goes to the back of the line of reporters.")
+  $("#gameAlerts").append("<br/>" + questioningReporter.name + " goes to the back of the line of reporters.")
 }
 } 
 var ourLine = new ReporterQueue();
@@ -219,72 +219,72 @@ while(qD.questions.length != 0) {
   afterThis = ourLine.repAfterThisOne();
   questioningReporter.askAQuestion();
 
-  $("#gameAlerts").append("Minister " + currentMinister.name + " who has " + currentMinister.specInterp(currentMinister.specialty) + " knowledge has the panel microphone. Do you want to switch ministers?")
-  $("#gameAlerts").append("Keep in mind, the reporter after this one is " + afterThis.name + " whose specialty is " + currentMinister.specInterp(afterThis.specialty) + ".");
+  $("#gameAlerts").append("<br/>" + "Minister " + currentMinister.name + " who has " + currentMinister.specInterp(currentMinister.specialty) + " knowledge has the panel microphone. Do you want to switch ministers?")
+  $("#gameAlerts").append("<br/>" + "Keep in mind, the reporter after this one is " + afterThis.name + " whose specialty is " + currentMinister.specInterp(afterThis.specialty) + ".");
 
   if (currentMinister.next != null && currentMinister.previous != null) {
-    $("#gameAlerts").append("You can switch to " + currentMinister.previous.name + " who has " + currentMinister.specInterp(currentMinister.previous.specialty) + " knowledge. You could also switch to " + currentMinister.next.name + " who has " + currentMinister.specInterp(currentMinister.next.specialty) + " knowledge.");
+    $("#gameAlerts").append("<br/>" + "You can switch to " + currentMinister.previous.name + " who has " + currentMinister.specInterp(currentMinister.previous.specialty) + " knowledge. You could also switch to " + currentMinister.next.name + " who has " + currentMinister.specInterp(currentMinister.next.specialty) + " knowledge.");
     var chooseMinister = prompt("Type " + currentMinister.name + " to keep the current Minister or type " + currentMinister.previous.name + " or " + currentMinister.next.name + " to switch to them.").toUpperCase();
     
     switch(chooseMinister) {
       case currentMinister.previous.name.toUpperCase():
       currentMinister = currentMinister.previous;
-      $("#gameAlerts").append(currentMinister.name + " gets the microphone and prepares to answer the question.");
+      $("#gameAlerts").append("<br/>" + currentMinister.name + " gets the microphone and prepares to answer the question.");
       break;
 
       case currentMinister.name.toUpperCase():
       currentMinister = currentMinister;
-      $("#gameAlerts").append(currentMinister.name + " keeps the microphone and prepares to answer the question.");
+      $("#gameAlerts").append("<br/>" + currentMinister.name + " keeps the microphone and prepares to answer the question.");
       break;
 
       case currentMinister.next.name.toUpperCase():
       currentMinister = currentMinister.next;
-      $("#gameAlerts").append(currentMinister.name + " gets the microphone and prepares to answer the question.");
+      $("#gameAlerts").append("<br/>" + currentMinister.name + " gets the microphone and prepares to answer the question.");
       break;
 
       default: 
-      $("#gameAlerts").append("Your ministers didn't understand your instructions. In the confusion, the current minister grasps the microphone tighter; " + currentMinister.name + " still has the microphone!");
+      $("#gameAlerts").append("<br/>" + "Your ministers didn't understand your instructions. In the confusion, the current minister grasps the microphone tighter; " + currentMinister.name + " still has the microphone!");
     }
   }
 
   else if (currentMinister.next != null && currentMinister.previous == null) {
-    $("#gameAlerts").append("You can switch to " + currentMinister.next.name + " who has " + currentMinister.specInterp(currentMinister.next.specialty) + " knowledge.");
+    $("#gameAlerts").append("<br/>" + "You can switch to " + currentMinister.next.name + " who has " + currentMinister.specInterp(currentMinister.next.specialty) + " knowledge.");
     var chooseMinister = prompt("Type " + currentMinister.name + " to keep the current Minister or type " + currentMinister.next.name + " to switch to them.").toUpperCase();    
 
     switch(chooseMinister) {
 
       case currentMinister.name.toUpperCase():
       currentMinister = currentMinister;
-      $("#gameAlerts").append(currentMinister.name + " keeps the microphone and prepares to answer the question.");
+      $("#gameAlerts").append("<br/>" + currentMinister.name + " keeps the microphone and prepares to answer the question.");
       break;
 
       case currentMinister.next.name.toUpperCase():
       currentMinister = currentMinister.next;
-      $("#gameAlerts").append(currentMinister.name + " gets the microphone and prepares to answer the question.");
+      $("#gameAlerts").append("<br/>" + currentMinister.name + " gets the microphone and prepares to answer the question.");
       break;
 
       default: 
-      $("#gameAlerts").append("Your ministers didn't understand your instructions. In the confusion, the current minister grasps the microphone tighter; " + currentMinister.name + " still has the microphone!");    
+      $("#gameAlerts").append("<br/>" + "Your ministers didn't understand your instructions. In the confusion, the current minister grasps the microphone tighter; " + currentMinister.name + " still has the microphone!");    
     }
   }
   else {
-    $("#gameAlerts").append("You can switch to " + currentMinister.previous.name + " who has " + currentMinister.specInterp(currentMinister.previous.specialty) + " knowledge.");
+    $("#gameAlerts").append("<br/>" + "You can switch to " + currentMinister.previous.name + " who has " + currentMinister.specInterp(currentMinister.previous.specialty) + " knowledge.");
     var chooseMinister = prompt("Type " + currentMinister.name + " to keep the current Minister or type " + currentMinister.previous.name + " to switch to them.").toUpperCase();    
 
     switch(chooseMinister) {
 
       case currentMinister.name.toUpperCase():
       currentMinister = currentMinister;
-      $("#gameAlerts").append(currentMinister.name + " keeps the microphone and prepares to answer the question.");
+      $("#gameAlerts").append("<br/>" + currentMinister.name + " keeps the microphone and prepares to answer the question.");
       break;
 
       case currentMinister.previous.name.toUpperCase():
       currentMinister = currentMinister.previous;
-      $("#gameAlerts").append(currentMinister.name + " gets the microphone and prepares to answer the question.");
+      $("#gameAlerts").append("<br/>" + currentMinister.name + " gets the microphone and prepares to answer the question.");
       break;
 
       default: 
-      $("#gameAlerts").append("Your ministers didn't understand your instructions. In the confusion, the current minister grasps the microphone tighter; " + currentMinister.name + " still has the microphone!");    
+      $("#gameAlerts").append("<br/>" + "Your ministers didn't understand your instructions. In the confusion, the current minister grasps the microphone tighter; " + currentMinister.name + " still has the microphone!");    
     }    
   }
 
@@ -293,7 +293,7 @@ while(qD.questions.length != 0) {
   alert("Are you done with the current alerts?");
   $("#gameAlerts").empty();
 }
-$("#gameAlerts").append("Samantha stands up and says, \"Well, that's all the questions. Thank you for coming to our panel. We look forward to reading your positive reports in the paper.\"");
+$("#gameAlerts").append("<br/>" + "Samantha stands up and says, \"Well, that's all the questions. Thank you for coming to our panel. We look forward to reading your positive reports in the paper.\"");
 }
 theQuestionsGame();
 //thanks to http://www.nczonline.net/blog/2009/04/21/computer-science-in-javascript-doubly-linked-lists/ for ideas on how to implement the doubly-linked list for the ministers.
