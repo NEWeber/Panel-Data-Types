@@ -233,7 +233,6 @@ var theQuestionsGame = function () {
     questioningReporter.askAQuestion();
 
     $("#gameAlerts").append("<br/>" + "Minister " + currentMinister.name + " who has " + currentMinister.specInterp(currentMinister.specialty) + " knowledge has the panel microphone. Do you want to switch ministers?")
-    $("#gameAlerts").append("<br/>" + "Keep in mind, the reporter after this one is " + afterThis.name + " whose specialty is " + currentMinister.specInterp(afterThis.specialty) + ".");
 
     if (currentMinister.next != null && currentMinister.previous != null) {
       $("#gameAlerts").append("<br/>" + "You can switch to " + currentMinister.previous.name + " who has " + currentMinister.specInterp(currentMinister.previous.specialty) + " knowledge. You could also switch to " + currentMinister.next.name + " who has " + currentMinister.specInterp(currentMinister.next.specialty) + " knowledge.");
