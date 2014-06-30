@@ -181,7 +181,13 @@ this.repQueue = [bob, beth, bill]; //[]
 //this.startQueue = function() {} build a reporter queue from scratch
 this.nextRep = function () {
   questioningReporter = this.repQueue.splice(0, 1)[0];
-  $("#gameAlerts").append("<br/>" + questioningReporter.name + " steps up to the microphone.")
+  $(".reporter").fadeOut("slow");
+  $("#currentreporter").html(questioningReporter.name + "<br/>" + questioningReporter.specInterp(questioningReporter.specialty));
+  $("#r1").html(this.repQueue[0].name + "<br/>" + questioningReporter.specInterp(this.repQueue[0].specialty));
+  $("#r2").html(this.repQueue[1].name + "<br/>" + questioningReporter.specInterp(this.repQueue[1].specialty));
+  $("#currentreporter").fadeIn("slow");
+	$("#r1").fadeIn("slow");	
+	$("#r2").fadeIn("slow");
 }
 this.repAfterThisOne = function () {
   //meant to be called after nextRep()
@@ -189,7 +195,13 @@ this.repAfterThisOne = function () {
 }
 this.repDone = function () {
   this.repQueue[this.repQueue.length] =  questioningReporter;
-  $("#gameAlerts").append("<br/>" + questioningReporter.name + " goes to the back of the line of reporters.")
+  $(".reporter").fadeOut("slow");
+    $("#r1").html(this.repQueue[0].name + "<br/>" + questioningReporter.specInterp(this.repQueue[0].specialty));
+  $("#r2").html(this.repQueue[1].name + "<br/>" + questioningReporter.specInterp(this.repQueue[1].specialty));
+  $("#r3").html(this.repQueue[2].name + "<br/>" + questioningReporter.specInterp(this.repQueue[2].specialty));
+	$("#r1").fadeIn("slow");	
+	$("#r2").fadeIn("slow");	
+	$("#r3").fadeIn("slow");
 }
 } 
 var ourLine = new ReporterQueue();
@@ -215,6 +227,7 @@ var currentMinister = sam;
 var theQuestionsGame = function () {
 while(qD.questions.length != 0) {
   //Basic game flow
+
   ourLine.nextRep();
   afterThis = ourLine.repAfterThisOne();
   questioningReporter.askAQuestion();
