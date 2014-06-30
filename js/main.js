@@ -5,23 +5,23 @@ var questioningReporter;
 var afterThis;
 
 function Knowledge () {
-this.specInterp = function(number){
-  var specialtyIndex = ["General Interest", "Foreign Interest", "Domestic Interest"]
-  return specialtyIndex[number];
-}
+  this.specInterp = function(number){
+    var specialtyIndex = ["General Interest", "Foreign Interest", "Domestic Interest"]
+    return specialtyIndex[number];
+  }
 }
 
 function QuestionDeck() {
-this.questions = [];
+  this.questions = [];
   this.count = function() {
     return this.questions.length;
   }
-this.draw = function() {
-  /*var newQCard = this.questions[(this.count - 1)];
-  this.questions[(this.count - 1)] = null;
-  return newQCard;*/
-  return this.questions.pop();
-}
+  this.draw = function() {
+    /*var newQCard = this.questions[(this.count - 1)];
+    this.questions[(this.count - 1)] = null;
+    return newQCard;*/
+    return this.questions.pop();
+  }
 }
 
 qD = new QuestionDeck;
