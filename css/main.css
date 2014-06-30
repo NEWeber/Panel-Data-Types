@@ -8,12 +8,15 @@ textarea {
     color: #222;
 }
 
+
 .minister {
     height:100px;
     width:100px;
+    border-radius: 5px; 
     display: inline-block;
     background-color: #A9A9A9;
     opacity: .5;
+    text-align: center;
 }
 
 #lmin {
@@ -29,11 +32,17 @@ textarea {
 }
 
 .reporter {
-    height:100px;
-    width:100px;
-    display: inline-block;
+    display: inline-block; 
     background-color: #336699;
     opacity: .75;  
+    margin: auto;
+    border-radius: 5px;
+    border: 2px solid #6495ED;
+    height: 50px;
+    width: 120px;
+    text-align: center;
+    color: #FFFFFF;
+    margin: 5px 10px 10px 5px;
 }
 
 #currentreporter{
