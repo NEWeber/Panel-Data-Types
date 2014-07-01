@@ -24,6 +24,27 @@ header h2 {
     text-align: center;
 }
 
+.possminister {
+    height:75px;
+    width:175px;
+    border-radius: 5px; 
+    display: inline-block;
+    background-color: #A9A9A9;
+    border: 3px dashed #000000;
+    opacity: 1;
+    text-align: center;
+}
+
+.impossminister {
+    height:75px;
+    width:175px;
+    border-radius: 5px; 
+    display: inline-block;
+    background-color: red;
+    opacity: .25;
+    text-align: center;
+}
+
 .minister {
     height:75px;
     width:150px;
