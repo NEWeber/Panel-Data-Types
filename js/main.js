@@ -229,7 +229,6 @@ $("#rmin").html(sil.name + "<br/>" + sil.specInterp(sil.specialty));
 var currentMinister = sam;
 
 var theQuestionsGame = function () {
-  while(qD.questions.length != 0) {
     //Basic game flow
 
     ourLine.nextRep();
@@ -308,9 +307,147 @@ var theQuestionsGame = function () {
     ourLine.repDone();
     alert("Are you done with the current alerts?");
     $("#gameAlerts").empty();
-  }
-  $("#gameAlerts").append("<br/>" + "Samantha stands up and says, \"Well, that's all the questions. Thank you for coming to our panel. We look forward to reading your positive reports in the paper.\"");
 }
 theQuestionsGame();
+while(qD.questions.length != 0) {
+  theQuestionsGame();
+}
+$("#gameAlerts").append("<br/>" + "Samantha stands up and says, \"Well, that's all the questions. Thank you for coming to our panel. We look forward to reading your positive reports in the paper.\"");
 //thanks to http://www.nczonline.net/blog/2009/04/21/computer-science-in-javascript-doubly-linked-lists/ for ideas on how to implement the doubly-linked list for the ministers.
 })
+/* jQuery code that I can't get working
+var ministerSwitch = function() {
+  switchClick = false;
+  $(document).ready(function() {
+  $("#alert1").empty();
+  $("#alert1").html("Do you want to pass the microphone? <br/> Click a vaild panelist to continue.");
+  $("#alert1").fadeIn("slow");
+  
+  switch(currentMinister) {
+    case sam:
+      $("#lmin").hover(
+        function() {
+          $("#lmin").addClass("possminister");
+        },
+        function() {
+          $("#lmin").removeClass("possminister");
+        }
+        )
+
+      $("#mmin").hover(
+        function() {
+          $("#mmin").removeClass("curminister");
+          $("#mmin").addClass("possminister");
+        },
+        function() {
+          $("#mmin").removeClass("possminister");
+          $("#mmin").addClass("curminister");
+        }
+        )
+      $("#rmin").hover(
+        function() {
+          $("#rmin").addClass("possminister");
+        },
+        function() {
+          $("#rmin").removeClass("possminister");
+        }
+        )
+      $("#lmin").on("click", function() {
+        $("#mmin").removeClass("curminister");
+        $("#lmin").addClass("curminister");
+        currentMinister = saul;
+        switchClick = true; 
+      })
+      $("#mmin").on("click", function() {
+        $("#mmin").addClass("curminister");
+        currentMinister = sam;
+        switchClick = true;
+      })
+      $("#rmin").on("click", function() {
+        $("#mmin").removeClass("curminister");
+        $("#rmin").addClass("curminister");
+        currentMinister = sil;
+        switchClick = true;
+      })
+      break;
+
+    case saul:
+      $("#lmin").hover(
+        function() {
+          $("#lmin").removeClass("curminister");
+          $("#lmin").addClass("possminister");
+        },
+        function() {
+          $("#lmin").removeClass("possminister");
+          $("#lmin").addClass("curminister");
+        }
+        )
+      $("#mmin").hover(
+        function() {
+          $("#mmin").addClass("possminister");
+        },
+        function() {
+          $("#mmin").removeClass("possminister");
+        }
+        )
+      $("#rmin").hover(
+        function() {
+          $("#rmin").addClass("impossminister");
+        },
+        function() {
+          $("#rmin").removeClass("impossminister");
+        }
+        )
+      $("#lmin").on("click", function() {
+        currentMinister = saul;
+        switchClick = true;
+      })
+      $("#mmin").on("click", function() {
+        $("#lmin").removeClass("curminister");
+        $("#mmin").addClass("curminister");
+        currentMinister = sam;
+        switchClick = true; 
+      })
+      break;  
+
+    case sil:
+      $("#lmin").hover(
+        function() {
+          $("#lmin").addClass("impossminister");
+        },
+        function() {
+          $("#lmin").removeClass("impossminister");
+        }
+        )
+      $("#mmin").hover(
+        function() {
+          $("#mmin").addClass("possminister");
+        },
+        function() {
+          $("#mmin").removeClass("possminister");
+        }
+        )
+      $("#rmin").hover(
+        function() {
+          $("#rmin").removeClass("curminister");
+          $("#rmin").addClass("possminister");
+        },
+        function() {
+          $("#rmin").removeClass("possminister");
+          $("#rmin").addClass("curminister");
+        }
+        )
+      $("#rmin").on("click", function() {
+        currentMinister = sil;
+        switchClick = true;
+      })
+      $("#mmin").on("click", function() {
+        $("#rmin").removeClass("curminister");
+        $("#mmin").addClass("curminister");
+        currentMinister = sam;
+        switchClick = true; 
+      })
+      break;        
+  }
+})
+}*/

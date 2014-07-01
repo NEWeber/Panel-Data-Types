@@ -8,6 +8,9 @@ textarea {
     color: #222;
 }
 
+aside p {
+    font-size: 12px;
+}
 
 header h2 {
     color: red;
