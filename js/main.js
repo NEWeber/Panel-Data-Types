@@ -222,9 +222,9 @@ sil.intComp();
 sil.previous = sam;
 sil.next = null;
 
-$("lmin").html(saul.name + "<br/>" + saul.specInterp(saul.specialty));
-$("mmin").html(sam.name + "<br/>" + sam.specInterp(sam.specialty));
-$("rmin").html(sil.name + "<br/>" + sil.specInterp(sil.specialty));
+$("#lmin").html(saul.name + "<br/>" + saul.specInterp(saul.specialty));
+$("#mmin").html(sam.name + "<br/>" + sam.specInterp(sam.specialty));
+$("#rmin").html(sil.name + "<br/>" + sil.specInterp(sil.specialty));
 
 var currentMinister = sam;
 
