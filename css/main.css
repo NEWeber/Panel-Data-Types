@@ -25,7 +25,7 @@ header h2 {
 }
 
 .possminister {
-    height:75px;
+    height:100px;
     width:175px;
     border-radius: 5px; 
     display: inline-block;
@@ -45,9 +45,9 @@ header h2 {
     text-align: center;
 }
 
-.minister {
+header div {
     height:75px;
-    width:150px;
+    width:175px;
     border-radius: 5px; 
     display: inline-block;
     background-color: #A9A9A9;
