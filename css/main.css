@@ -9,9 +9,24 @@ textarea {
 }
 
 
+header h2 {
+    color: red;
+}
+
+.curminister {
+    height:75px;
+    width:175px;
+    border-radius: 5px; 
+    display: inline-block;
+    background-color: #A9A9A9;
+    border: 2px solid #000000;
+    opacity: .75;
+    text-align: center;
+}
+
 .minister {
-    height:100px;
-    width:100px;
+    height:75px;
+    width:150px;
     border-radius: 5px; 
     display: inline-block;
     background-color: #A9A9A9;
@@ -39,7 +54,7 @@ textarea {
     border-radius: 5px;
     border: 2px solid #6495ED;
     height: 50px;
-    width: 120px;
+    width: 150px;
     text-align: center;
     color: #FFFFFF;
     margin: 5px 10px 5px 10px;
