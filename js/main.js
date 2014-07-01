@@ -1,5 +1,5 @@
 $(document).ready(function() {
-
+$("#alert1").hide();
 var questionOnTable;
 var questioningReporter;
 var afterThis;
