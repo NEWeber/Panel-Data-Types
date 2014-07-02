@@ -4,7 +4,7 @@ Written for Code Fellows Foundations I course.
 v 0.25
 
 UPDATE (7-1):
-Added HTML/CSS/jQuery to make the Panel work without the console and without the prompts popping up.
+Added HTML/CSS/jQuery to make the Panel work without the console and without the prompts popping up. Thanks to HTML5 boilerplate: http://html5boilerplate.com/ for the responsive HTML page foundation on which to build the game.
 
 KNOWN ISSUES:
 Can't play more than one round, due to the behavior (I think) of the jQuery in the ministerSwitch() function starting on line 252 in the js/main.js stacking up. I couldn't figure out a way to fix it right now, so I disabled the code to play a new round. To experience the strangeness, just uncomment the code in lines 439 ff.
