@@ -76,6 +76,7 @@ function Reporter(name, specialty) {
     if (qD.questions.length == 0) {
       $("#gameAlerts").append("<br/>" + "There are no more questions on the deck! " + questioningReporter.name + " is going off the rails and is asking a difficult question about their specialty!");
       questionOnTable = new QuestionCard(questioningReporter.specialty, 2);
+      ministerSwitch();
       
     }
     else {
