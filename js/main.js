@@ -1,5 +1,3 @@
-$(document).ready(function() {
-$("#alert1").hide();
 var questionOnTable;
 var questioningReporter;
 var afterThis;
@@ -72,23 +70,28 @@ function Reporter(name, specialty) {
   } 
 
   this.askAQuestion = function() {
-    $("#gameAlerts").append("<br/>" + this.name + " draws a question off the deck.")
+    console.log("In ask a question");
+    $(document).ready(function() {
+    $("#gameAlerts").append("<br/>" + questioningReporter.name + " draws a question off the deck.")
     if (qD.questions.length == 0) {
-      $("#gameAlerts").append("<br/>" + "There are no more questions on the deck! " + this.name + " is going off the rails and is asking a difficult question about their specialty!");
-      questionOnTable = new QuestionCard(this.specialty, 2);
+      $("#gameAlerts").append("<br/>" + "There are no more questions on the deck! " + questioningReporter.name + " is going off the rails and is asking a difficult question about their specialty!");
+      questionOnTable = new QuestionCard(questioningReporter.specialty, 2);
       
     }
     else {
       var currentQ = qD.draw();
-      if (this.wantsToAsk(currentQ.specialty)) {
-        $("#gameAlerts").append("<br/>" + this.name + " likes this " + this.specInterp(currentQ.specialty) + " question. They're about to ask it.")
+      if (questioningReporter.wantsToAsk(currentQ.specialty)) {
+        $("#gameAlerts").append("<br/>" + questioningReporter.name + " likes this " + questioningReporter.specInterp(currentQ.specialty) + " question. They're about to ask it.")
         questionOnTable = currentQ;
+        ministerSwitch();
       }
       else {
-        $("#gameAlerts").append("<br/>" + this.name + " tosses the " + this.specInterp(currentQ.specialty)+ " question card away in disgust.")
-        this.askAQuestion();
+        $("#gameAlerts").append("<br/>" + questioningReporter.name + " tosses the " + questioningReporter.specInterp(currentQ.specialty)+ " question card away in disgust.")
+        questioningReporter.askAQuestion();
+
       }
     }
+  })
   }
 }
 
@@ -122,40 +125,48 @@ function Minister(name, specialty) {
   //Ministers answer questions successfully if they roll a number on a d10 less than or equal to their stat in that area.
   //DRY this up with object bracket notation with variables for the different specialty types.
   this.askedAQuestion = function() {
-
+    console.log("In Minister is being asked a question.")
+    $(document).ready(function() {
     if (questionOnTable.specialty == 0) {
-      if (this.gen >= ((Math.floor(Math.random() * 10)) + 1)) {
-        $("#gameAlerts").append("<br/>" + this.name + " deftly handles the " + this.specInterp(questionOnTable.specialty) + " question.");
+      if (currentMinister.gen >= ((Math.floor(Math.random() * 10)) + 1)) {
+        $("#gameAlerts").append("<br/>" + currentMinister.name + " deftly handles the " + currentMinister.specInterp(questionOnTable.specialty) + " question.");
           //insert score keeping here
+          questionCleanUp();
       }
       else {
-        $("#gameAlerts").append("<br/>" + this.name + " handles the " + this.specInterp(questionOnTable.specialty) + " question terribly!");
+        $("#gameAlerts").append("<br/>" + currentMinister.name + " handles the " + currentMinister.specInterp(questionOnTable.specialty) + " question terribly!");
           //insert score keeping here
+          questionCleanUp();
       }
     }
 
     else if (questionOnTable.specialty == 1) {
-      if (this.foreign >= ((Math.floor(Math.random() * 10)) + 1)) {
-        $("#gameAlerts").append("<br/>" + this.name + " deftly handles the " + this.specInterp(questionOnTable.specialty) + " question.");
+      if (currentMinister.foreign >= ((Math.floor(Math.random() * 10)) + 1)) {
+        $("#gameAlerts").append("<br/>" + currentMinister.name + " deftly handles the " + currentMinister.specInterp(questionOnTable.specialty) + " question.");
           //insert score keeping here
+          questionCleanUp();
       }
       else {
-        $("#gameAlerts").append("<br/>" + this.name + " handles the " + this.specInterp(questionOnTable.specialty) + " question terribly!");
+        $("#gameAlerts").append("<br/>" + currentMinister.name + " handles the " + currentMinister.specInterp(questionOnTable.specialty) + " question terribly!");
           //insert score keeping here
+          questionCleanUp();
       }      
     }
 
     else {
-      if (this.domestic >= ((Math.floor(Math.random() * 10)) + 1)) {
-        $("#gameAlerts").append("<br/>" + this.name + " deftly handles the " + this.specInterp(questionOnTable.specialty) + " question.");
+      if (currentMinister.domestic >= ((Math.floor(Math.random() * 10)) + 1)) {
+        $("#gameAlerts").append("<br/>" + currentMinister.name + " deftly handles the " + currentMinister.specInterp(questionOnTable.specialty) + " question.");
           //insert score keeping here
+          questionCleanUp();
       }
       else {
-        $("#gameAlerts").append("<br/>" + this.name + " handles the " + this.specInterp(questionOnTable.specialty) + " question terribly!");
+        $("#gameAlerts").append("<br/>" + currentMinister.name + " handles the " + currentMinister.specInterp(questionOnTable.specialty) + " question terribly!");
           //insert score keeping here
+          questionCleanUp();
       }      
     }
-
+    
+  })
   }
 }
 QuestionCard.prototype = new Knowledge();
@@ -180,28 +191,35 @@ function ReporterQueue() {
   this.repQueue = [bob, beth, bill]; //[]
   //this.startQueue = function() {} build a reporter queue from scratch
   this.nextRep = function () {
+    console.log("next reporter to the microphone.")
     questioningReporter = this.repQueue.splice(0, 1)[0];
+    $(document).ready(function() {
     $(".reporter").fadeOut("slow");
     $("#currentreporter").html(questioningReporter.name + "<br/>" + questioningReporter.specInterp(questioningReporter.specialty));
-    $("#r1").html(this.repQueue[0].name + "<br/>" + questioningReporter.specInterp(this.repQueue[0].specialty));
-    $("#r2").html(this.repQueue[1].name + "<br/>" + questioningReporter.specInterp(this.repQueue[1].specialty));
+    $("#r1").html(ourLine.repQueue[0].name + "<br/>" + questioningReporter.specInterp(ourLine.repQueue[0].specialty));
+    $("#r2").html(ourLine.repQueue[1].name + "<br/>" + questioningReporter.specInterp(ourLine.repQueue[1].specialty));
     $("#currentreporter").fadeIn("slow");
     $("#r1").fadeIn("slow");  
     $("#r2").fadeIn("slow");
+    })
+    questioningReporter.askAQuestion();
   }
   this.repAfterThisOne = function () {
     //meant to be called after nextRep()
     return this.repQueue[0];
   }
   this.repDone = function () {
+    console.log("Reporter is returning to the queue.")
     this.repQueue[this.repQueue.length] =  questioningReporter;
+    $(document).ready(function() {
     $(".reporter").fadeOut("slow");
-    $("#r1").html(this.repQueue[0].name + "<br/>" + questioningReporter.specInterp(this.repQueue[0].specialty));
-    $("#r2").html(this.repQueue[1].name + "<br/>" + questioningReporter.specInterp(this.repQueue[1].specialty));
-    $("#r3").html(this.repQueue[2].name + "<br/>" + questioningReporter.specInterp(this.repQueue[2].specialty));
+    $("#r1").html(ourLine.repQueue[0].name + "<br/>" + questioningReporter.specInterp(ourLine.repQueue[0].specialty));
+    $("#r2").html(ourLine.repQueue[1].name + "<br/>" + questioningReporter.specInterp(ourLine.repQueue[1].specialty));
+    $("#r3").html(ourLine.repQueue[2].name + "<br/>" + questioningReporter.specInterp(ourLine.repQueue[2].specialty));
     $("#r1").fadeIn("slow");  
     $("#r2").fadeIn("slow");  
     $("#r3").fadeIn("slow");
+    })
   }
 } 
 var ourLine = new ReporterQueue();
@@ -222,12 +240,234 @@ sil.intComp();
 sil.previous = sam;
 sil.next = null;
 
+$(document).ready(function() {
 $("#lmin").html(saul.name + "<br/>" + saul.specInterp(saul.specialty));
 $("#mmin").html(sam.name + "<br/>" + sam.specInterp(sam.specialty));
 $("#rmin").html(sil.name + "<br/>" + sil.specInterp(sil.specialty));
+})
 
 var currentMinister = sam;
+var switchClick;
 
+var ministerSwitch = function() {
+  console.log("ready for input");
+  switchClick = false;
+  $(document).ready(function() {
+  $("#alert1").empty();
+  $("#alert1").html("Do you want to pass the microphone? <br/> Click a vaild panelist to continue.");
+  $("#alert1").fadeIn("slow");
+  
+  switch(currentMinister) {
+    case sam:
+      $("#lmin").removeClass();
+      $("#mmin").addClass("curminister");
+      $("#rmin").removeClass();
+
+      $("#lmin").hover(
+        function() {
+          $("#lmin").addClass("possminister");
+        },
+        function() {
+          $("#lmin").removeClass("possminister");
+        }
+        )
+
+      $("#mmin").hover(
+        function() {
+          $("#mmin").removeClass("curminister");
+          $("#mmin").addClass("possminister");
+        },
+        function() {
+          $("#mmin").removeClass("possminister");
+          $("#mmin").addClass("curminister");
+        }
+        )
+      $("#rmin").hover(
+        function() {
+          $("#rmin").addClass("possminister");
+        },
+        function() {
+          $("#rmin").removeClass("possminister");
+        }
+        )
+      $("#lmin").on("click", function() {
+        $("#mmin").removeClass("curminister");
+        $("#lmin").addClass("curminister");
+        currentMinister = saul;
+        cleanUpMinClick(); 
+      })
+      $("#mmin").on("click", function() {
+        $("#mmin").addClass("curminister");
+        currentMinister = sam;
+        cleanUpMinClick();
+      })
+      $("#rmin").on("click", function() {
+        $("#mmin").removeClass("curminister");
+        $("#rmin").addClass("curminister");
+        currentMinister = sil;
+        cleanUpMinClick();
+      })
+      break;
+
+    case saul:
+      $("#lmin").addClass("curminister");
+      $("#mmin").removeClass();
+      $("#rmin").removeClass();
+      $("#lmin").hover(
+        function() {
+          $("#lmin").removeClass("curminister");
+          $("#lmin").addClass("possminister");
+        },
+        function() {
+          $("#lmin").removeClass("possminister");
+          $("#lmin").addClass("curminister");
+        }
+        )
+      $("#mmin").hover(
+        function() {
+          $("#mmin").addClass("possminister");
+        },
+        function() {
+          $("#mmin").removeClass("possminister");
+        }
+        )
+      $("#rmin").hover(
+        function() {
+          $("#rmin").addClass("impossminister");
+        },
+        function() {
+          $("#rmin").removeClass("impossminister");
+        }
+        )
+      $("#lmin").on("click", function() {
+        currentMinister = saul;
+        cleanUpMinClick();
+      })
+      $("#mmin").on("click", function() {
+        $("#lmin").removeClass("curminister");
+        $("#mmin").addClass("curminister");
+        currentMinister = sam;
+        cleanUpMinClick(); 
+      })
+      break;  
+
+    case sil:
+      $("#lmin").removeClass();
+      $("#mmin").removeClass();
+      $("#rmin").addClass("curminister");
+      $("#lmin").hover(
+        function() {
+          $("#lmin").addClass("impossminister");
+        },
+        function() {
+          $("#lmin").removeClass("impossminister");
+        }
+        )
+      $("#mmin").hover(
+        function() {
+          $("#mmin").addClass("possminister");
+        },
+        function() {
+          $("#mmin").removeClass("possminister");
+        }
+        )
+      $("#rmin").hover(
+        function() {
+          $("#rmin").removeClass("curminister");
+          $("#rmin").addClass("possminister");
+        },
+        function() {
+          $("#rmin").removeClass("possminister");
+          $("#rmin").addClass("curminister");
+        }
+        )
+      $("#rmin").on("click", function() {
+        currentMinister = sil;
+        cleanUpMinClick();
+      })
+      $("#mmin").on("click", function() {
+        $("#rmin").removeClass("curminister");
+        $("#mmin").addClass("curminister");
+        currentMinister = sam;
+        cleanUpMinClick(); 
+      })
+      break;        
+  }
+})
+}
+
+var cleanUpMinClick = function() {
+  console.log("cleaning up after you clicked on a minister.")
+  $(document).ready(function() {
+    $("#alert1").fadeOut("slow");
+
+  switch(currentMinister) {
+    case sam:
+      $("#lmin").removeClass();
+      $("#mmin").addClass("curminister");
+      $("#rmin").removeClass();
+      break;
+
+    case saul:
+      $("#lmin").addClass("curminister");
+      $("#mmin").removeClass();
+      $("#rmin").removeClass();
+      break;
+
+    case sil:
+      $("#lmin").removeClass();
+      $("#mmin").removeClass();
+      $("#rmin").addClass("curminister");
+      break;
+  }
+  //add next function call, should be the minister being asked the question.
+  //TEST:
+  currentMinister.askedAQuestion();
+})
+}
+
+var questionCleanUp = function() {
+    console.log("Cleaning up after the question was asked.")
+    if(qD.questions.length != 0) {
+      ourLine.repDone();
+      $(document).ready(function() {
+        $("#alert1").empty();
+        //$("#alert1").html("Read the alerts on the right to see what's going on. <br/> Click me when you're ready to go on.");
+        $("#alert1").html("Well, one round is all we can do. Come back for more rounds later!");
+        $("#alert1").fadeIn("slow");
+        /* 
+        $("#alert1").on("click", function() {
+          FIXIT: Code breaks after one round. 
+          Enable newRound(); after bug is fixed. 
+          ?Because of jQuery behavior stacking up in ministerSwitch? 
+          newRound(); 
+        })
+        */
+    })
+    }
+    else {
+      $(document).ready(function() {
+      $("#gameAlerts").append("<br/>" + "Samantha stands up and says, \"Well, that's all the questions. Thank you for coming to our panel. We look forward to reading your positive reports in the paper.\"");
+      })
+    }
+}
+
+var newRound = function() {
+  console.log("Starting a new round.")
+  $(document).ready(function() {
+    $("#alert1").fadeOut("fast");
+    $("#gameAlerts").empty();
+  ourLine.nextRep();
+  
+  
+})
+}
+
+newRound();
+
+
+
+/*
 var theQuestionsGame = function () {
     //Basic game flow
 
@@ -308,146 +548,9 @@ var theQuestionsGame = function () {
     alert("Are you done with the current alerts?");
     $("#gameAlerts").empty();
 }
-theQuestionsGame();
-while(qD.questions.length != 0) {
-  theQuestionsGame();
+
 }
 $("#gameAlerts").append("<br/>" + "Samantha stands up and says, \"Well, that's all the questions. Thank you for coming to our panel. We look forward to reading your positive reports in the paper.\"");
 //thanks to http://www.nczonline.net/blog/2009/04/21/computer-science-in-javascript-doubly-linked-lists/ for ideas on how to implement the doubly-linked list for the ministers.
-})
-/* jQuery code that I can't get working
-var ministerSwitch = function() {
-  switchClick = false;
-  $(document).ready(function() {
-  $("#alert1").empty();
-  $("#alert1").html("Do you want to pass the microphone? <br/> Click a vaild panelist to continue.");
-  $("#alert1").fadeIn("slow");
-  
-  switch(currentMinister) {
-    case sam:
-      $("#lmin").hover(
-        function() {
-          $("#lmin").addClass("possminister");
-        },
-        function() {
-          $("#lmin").removeClass("possminister");
-        }
-        )
+*/
 
-      $("#mmin").hover(
-        function() {
-          $("#mmin").removeClass("curminister");
-          $("#mmin").addClass("possminister");
-        },
-        function() {
-          $("#mmin").removeClass("possminister");
-          $("#mmin").addClass("curminister");
-        }
-        )
-      $("#rmin").hover(
-        function() {
-          $("#rmin").addClass("possminister");
-        },
-        function() {
-          $("#rmin").removeClass("possminister");
-        }
-        )
-      $("#lmin").on("click", function() {
-        $("#mmin").removeClass("curminister");
-        $("#lmin").addClass("curminister");
-        currentMinister = saul;
-        switchClick = true; 
-      })
-      $("#mmin").on("click", function() {
-        $("#mmin").addClass("curminister");
-        currentMinister = sam;
-        switchClick = true;
-      })
-      $("#rmin").on("click", function() {
-        $("#mmin").removeClass("curminister");
-        $("#rmin").addClass("curminister");
-        currentMinister = sil;
-        switchClick = true;
-      })
-      break;
-
-    case saul:
-      $("#lmin").hover(
-        function() {
-          $("#lmin").removeClass("curminister");
-          $("#lmin").addClass("possminister");
-        },
-        function() {
-          $("#lmin").removeClass("possminister");
-          $("#lmin").addClass("curminister");
-        }
-        )
-      $("#mmin").hover(
-        function() {
-          $("#mmin").addClass("possminister");
-        },
-        function() {
-          $("#mmin").removeClass("possminister");
-        }
-        )
-      $("#rmin").hover(
-        function() {
-          $("#rmin").addClass("impossminister");
-        },
-        function() {
-          $("#rmin").removeClass("impossminister");
-        }
-        )
-      $("#lmin").on("click", function() {
-        currentMinister = saul;
-        switchClick = true;
-      })
-      $("#mmin").on("click", function() {
-        $("#lmin").removeClass("curminister");
-        $("#mmin").addClass("curminister");
-        currentMinister = sam;
-        switchClick = true; 
-      })
-      break;  
-
-    case sil:
-      $("#lmin").hover(
-        function() {
-          $("#lmin").addClass("impossminister");
-        },
-        function() {
-          $("#lmin").removeClass("impossminister");
-        }
-        )
-      $("#mmin").hover(
-        function() {
-          $("#mmin").addClass("possminister");
-        },
-        function() {
-          $("#mmin").removeClass("possminister");
-        }
-        )
-      $("#rmin").hover(
-        function() {
-          $("#rmin").removeClass("curminister");
-          $("#rmin").addClass("possminister");
-        },
-        function() {
-          $("#rmin").removeClass("possminister");
-          $("#rmin").addClass("curminister");
-        }
-        )
-      $("#rmin").on("click", function() {
-        currentMinister = sil;
-        switchClick = true;
-      })
-      $("#mmin").on("click", function() {
-        $("#rmin").removeClass("curminister");
-        $("#mmin").addClass("curminister");
-        currentMinister = sam;
-        switchClick = true; 
-      })
-      break;        
-  }
-})
-}*/
