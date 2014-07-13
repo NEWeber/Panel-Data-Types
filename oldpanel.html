@@ -122,39 +122,30 @@
     //Ministers answer questions successfully if they roll a number on a d10 less than or equal to their stat in that area.
     //DRY this up with object bracket notation with variables for the different specialty types.
     this.askedAQuestion = function() {
+      var arrSpec;
+      switch (questionOnTable.specialty) {
+        case 0:
+        arrSpec = "gen";
+        break;
 
-      if (questionOnTable.specialty == 0) {
-        if (this.gen >= ((Math.floor(Math.random() * 10)) + 1)) {
-          console.log(this.name + " deftly handles the " + this.specInterp(questionOnTable.specialty) + " question.");
-            //insert score keeping here
-        }
-        else {
-          console.log(this.name + " handles the " + this.specInterp(questionOnTable.specialty) + " question terribly!");
-            //insert score keeping here
-        }
+        case 1:
+        arrSpec = "foreign";
+        break;
+
+        case 2:
+        arrSpec = "domestic";
+        break;
       }
-
-      else if (questionOnTable.specialty == 1) {
-        if (this.foreign >= ((Math.floor(Math.random() * 10)) + 1)) {
-          console.log(this.name + " deftly handles the " + this.specInterp(questionOnTable.specialty) + " question.");
-            //insert score keeping here
-        }
-        else {
-          console.log(this.name + " handles the " + this.specInterp(questionOnTable.specialty) + " question terribly!");
-            //insert score keeping here
-        }      
+      
+      if (this[arrSpec] >= ((Math.floor(Math.random() * 10)) + 1)) {
+        console.log(this.name + " deftly handles the " + this.specInterp(questionOnTable.specialty) + " question.");
+          //insert score keeping here
       }
-
       else {
-        if (this.domestic >= ((Math.floor(Math.random() * 10)) + 1)) {
-          console.log(this.name + " deftly handles the " + this.specInterp(questionOnTable.specialty) + " question.");
-            //insert score keeping here
-        }
-        else {
-          console.log(this.name + " handles the " + this.specInterp(questionOnTable.specialty) + " question terribly!");
-            //insert score keeping here
-        }      
+        console.log(this.name + " handles the " + this.specInterp(questionOnTable.specialty) + " question terribly!");
+          //insert score keeping here
       }
+      
 
     }
   }
